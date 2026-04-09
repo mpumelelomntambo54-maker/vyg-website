@@ -4,24 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VYG Website</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h1>Welcome to the VYG Website</h1>
-    </header>
+    <nav>
+        <h1>VYG Website</h1>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Daily Verse</a></li>
+            <li><a href="#">Advice</a></li>
+            <li><a href="#">Bible Quiz</a></li>
+            <li><a href="#">Donations</a></li>
+        </ul>
+    </nav>
     <main>
-        <section>
-            <h2>About Us</h2>
-            <p>We are the VYG, dedicated to providing the best services in the industry.</p>
+        <section id="daily-verse">
+            <h2>Daily Verse</h2>
+            <p>“For I know the plans I have for you,” declares the Lord… (Jeremiah 29:11)</p>
         </section>
-        <section>
-            <h2>Services</h2>
-            <p>Our services include web development, design, and marketing.</p>
+        <section id="advice">
+            <h2>Advice</h2>
+            <p>Always seek guidance in prayer.</p>
+        </section>
+        <section id="bible-quiz">
+            <h2>Bible Quiz</h2>
+            <form>
+                <label for="question">What is the first book of the Bible?</label>
+                <input type="text" id="question" name="question">
+                <button type="submit">Submit</button>
+            </form>
+        </section>
+        <section id="donation">
+            <h2>Support Us</h2>
+            <p>Help us by donating!</p>
+            <button>Donate Now</button>
         </section>
     </main>
     <footer>
-        <p>&copy; 2026 VYG. All rights reserved.</p>
+        <p>&copy; 2026 VYG Website. All rights reserved.</p>
     </footer>
 </body>
 </html>
