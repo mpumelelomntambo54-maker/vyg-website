@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>VYG - Victory Youth Group</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      scroll-behavior: smooth;
+      background: linear-gradient(135deg, #e8f5e9, #e3f2fd);
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      background: #2e7d32;
+      padding: 10px;
+      text-align: center;
+    }
+
+    nav button {
+      background: transparent;
+      color: white;
+      border: none;
+      margin: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    header {
+      text-align: center;
+      padding: 30px;
+      color: #2e7d32;
+    }
+
+    section {
+      padding: 30px;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(10px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    button.action {
+      padding: 10px 15px;
+      margin: 5px;
+      border: none;
+      border-radius: 10px;
+      background: #4caf50;
+      color: white;
+      cursor: pointer;
+    }
+
+    button.donate {
+      background: #ff9800;
+    }
+
+    h2 {
+      color: #2e7d32;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <button onclick="scrollToSection('home')">Home</button>
+  <button onclick="scrollToSection('advice')">Advice</button>
+  <button onclick="scrollToSection('quiz')">Quiz</button>
+  <button onclick="scrollToSection('donate')">Donate</button>
+</nav>
+
+<!-- HOME -->
+<header id="home">
+  <h1>🙌 VYG</h1>
+  <p>Victory Youth Group — Guiding Youth Through God's Word</p>
+</header>
+
+<section>
+
+  <!-- DAILY VERSE -->
+  <div class="card">
+    <h2>📖 Daily Verse</h2>
+    <p id="dailyVerse"></p>
+  </div>
+
+  <!-- ADVICE -->
+  <div class="card" id="advice">
+    <h2>✨ What Are You Going Through?</h2>
+
+    <button class="action" onclick="showVerse('anxious')">Anxious</button>
+    <button class="action" onclick="showVerse('sad')">Sad</button>
+    <button class="action" onclick="showVerse('angry')">Angry</button>
+    <button class="action" onclick="showVerse('confused')">Confused</button>
+
+    <p id="verse"></p>
+    <p id="message"></p>
+  </div>
+
+  <!-- QUIZ -->
+  <div class="card" id="quiz">
+    <h2>🎮 Bible Quiz</h2>
+
+    <button class="action" onclick="startQuiz('general')">General</button>
+    <button class="action" onclick="startQuiz('jesus')">Jesus</button>
+    <button class="action" onclick="startQuiz('old')">Old Testament</button>
+
+    <p id="question"></p>
+    <div id="answers"></div>
+    <p id="score"></p>
+  </div>
+
+  <!-- DONATION -->
+  <div class="card" id="donate">
+    <h2>💰 Support VYG</h2>
+    <p>You can support via Capitec EFT:</p>
+
+    <p><strong>Bank:</strong> Capitec</p>
+    <p><strong>Account Name:</strong> Your Name</p>
+    <p><strong>Account Number:</strong> XXXXXXXX</p>
+    <p><strong>Reference:</strong> VYG Support</p>
+
+    <button class="donate" onclick="copyDetails()">Copy Details</button>
+  </div>
+
+</section>
+
+<script>
+
+// NAVIGATION
+function scrollToSection(id) {
+  document.getElementById(id).scrollIntoView();
+}
+
+// DAILY VERSE
+const verses = [
+  "Jeremiah 29:11",
+  "Philippians 4:13",
+  "Psalm 23:1"
+];
+
+document.getElementById("dailyVerse").innerText =
+  verses[Math.floor(Math.random() * verses.length)];
+
+
+// ADVICE
+function showVerse(feeling) {
+  let data = {
+    anxious: ["Philippians 4:6-7", "I release my worries. Peace is mine."],
+    sad: ["Psalm 34:18", "God is close to me right now."],
+    angry: ["Proverbs 15:1", "I choose peace over reaction."],
+    confused: ["Proverbs 3:5-6", "God is guiding my path."]
+  };
+
+  document.getElementById("verse").innerText = "📖 " + data[feeling][0];
+  document.getElementById("message").innerText = "💬 " + data[feeling][1];
+}
+
+
+// QUIZ
+const quizzes = {
+  general: [
+    {q:"Who built the ark?", a:["Moses","Noah","David"], c:1},
+    {q:"Who defeated Goliath?", a:["David","Solomon","Peter"], c:0}
+  ],
+  jesus: [
+    {q:"Where was Jesus born?", a:["Nazareth","Bethlehem","Jerusalem"], c:1},
+    {q:"Who baptized Jesus?", a:["Peter","John","Paul"], c:1}
+  ],
+  old: [
+    {q:"Who parted the Red Sea?", a:["Moses","Abraham","Isaac"], c:0},
+    {q:"Who was swallowed by fish?", a:["Jonah","Elijah","Job"], c:0}
+  ]
+};
+
+let cq = [], qi = 0, sc = 0;
+
+function startQuiz(type) {
+  cq = quizzes[type];
+  qi = 0;
+  sc = 0;
+  loadQ();
+}
+
+function loadQ() {
+  let q = cq[qi];
+  document.getElementById("question").innerText = q.q;
+
+  let html = "";
+  q.a.forEach((ans,i)=>{
+    html += `<button class="action" onclick="check(${i})">${ans}</button>`;
+  });
+
+  document.getElementById("answers").innerHTML = html;
+}
+
+function check(i) {
+  if (i === cq[qi].c) sc++;
+  qi++;
+
+  if (qi < cq.length) loadQ();
+  else {
+    document.getElementById("question").innerText = "Finished 🎉";
+    document.getElementById("answers").innerHTML = "";
+    document.getElementById("score").innerText =
+      "Score: " + sc + "/" + cq.length;
+  }
+}
+
+// COPY BANK DETAILS
+function copyDetails() {
+  navigator.clipboard.writeText("Capitec | Mpumelelo | 2287623694 | VYG Support");
+  alert("Bank details copied 🙌");
+}
+
+</script>
+
+</body>
+</html>
